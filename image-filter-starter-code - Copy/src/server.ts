@@ -10,7 +10,7 @@ import fs from "fs";
 
   // Set the network port
   const port = process.env.PORT || 8082;
-  const fileStore = __dirname + "\\util\\tmp";
+  
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
 
@@ -33,36 +33,42 @@ import fs from "fs";
   //! END @TODO1
 
   app.get( "/filteredimage", async ( req, res ) => {
-    if(!req.query.image_url){
-      res.send("image url cannot empty")
+    console.log('dsad')
+    if(req.query.image_url){
+
     }
     try {
-      var fileName = await filterImageFromURL(req.query.image_url)
-      fileName = __dirname + "\\util" + fileName; 
-    res.sendFile(fileName, function (err) {
+      var a = await filterImageFromURL(req.query.image_url)
+    a = __dirname + "\\util" + a; 
+
+    res.sendFile(a, function (err) {
       if (err) {
-        deleteFile();
+        // var aab = [];
+        // deleteLocalFiles(aab);
       } else {
-        deleteFile();
-      }
-    })
+        var aa = new Array;
+        const files = fs.readdirSync(__dirname + "\\util\\tmp");
+        //log them on console
+        
+        files.forEach(file => {
+          aa.push(__dirname + "\\util\\tmp\\"+ file);
+        });
+           
+        deleteLocalFiles(aa);
+          }
+        })
     } catch (error) {
-      res.send("cannot receive from image url ")
+      res.send("image url cannot receive")
     }
+    
+    // res.send("try GET /filteredimage?image_url={{}}")
+    
   } );
   
-  function deleteFile(){
-    var fileList = new Array;
-        const files = fs.readdirSync(fileStore);
-        files.forEach(file => {
-          fileList.push(fileStore + "\\" + file);
-        });  
-        deleteLocalFiles(fileList);
-  }
-
   // Root Endpoint
   // Displays a simple message to the user
   app.get( "/", async ( req, res ) => {
+    console.log("vap")
     res.send("try GET /filteredimage?image_url={{}}")
   } );
   
