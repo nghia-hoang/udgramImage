@@ -37,7 +37,8 @@ import fs from "fs";
       res.send("image url cannot empty")
     }
     try {
-      var fileName = await filterImageFromURL(req.query.image_url)
+      var a = req.query.image_url as string;
+      var fileName = await filterImageFromURL(a)
       fileName = __dirname + "/util" + fileName; 
     res.sendFile(fileName, function (err) {
       if (err) {
