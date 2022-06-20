@@ -10,7 +10,7 @@ import fs from "fs";
 
   // Set the network port
   const port = process.env.PORT || 8082;
-  const fileStore = __dirname + "\\util\\tmp";
+  const fileStore = __dirname + "/util/tmp";
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
 
@@ -38,7 +38,7 @@ import fs from "fs";
     }
     try {
       var fileName = await filterImageFromURL(req.query.image_url)
-      fileName = __dirname + "\\util" + fileName; 
+      fileName = __dirname + "/util" + fileName; 
     res.sendFile(fileName, function (err) {
       if (err) {
         deleteFile();
@@ -55,7 +55,7 @@ import fs from "fs";
     var fileList = new Array;
         const files = fs.readdirSync(fileStore);
         files.forEach(file => {
-          fileList.push(fileStore + "\\" + file);
+          fileList.push(fileStore + "/" + file);
         });  
         deleteLocalFiles(fileList);
   }
