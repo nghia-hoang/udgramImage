@@ -32,15 +32,15 @@ import fs from "fs";
 
   //! END @TODO1
 
-  app.get( "/filteredimage", async ( req, res ) => {
+  app.get( "/filteredimage", async ( req:express.Request, res:express.Response ) => {
     if(!req.query.image_url){
-      res.send("image url cannot empty")
+      res.status(422).send("image url cannot empty")
     }
     try {
-      var a = req.query.image_url as string;
-      var fileName = await filterImageFromURL(a)
+      var fileUrl:string = req.query.image_url as string;
+      var fileName : string = await filterImageFromURL(fileUrl)
       fileName = __dirname + "/util" + fileName; 
-    res.sendFile(fileName, function (err) {
+    res.status(200).sendFile(fileName, function (err: Error) {
       if (err) {
         deleteFile();
       } else {
@@ -48,13 +48,13 @@ import fs from "fs";
       }
     })
     } catch (error) {
-      res.send("cannot receive from image url ")
+      res.status(404).send("cannot receive from image url ")
     }
   } );
   
   function deleteFile(){
-    var fileList = new Array;
-        const files = fs.readdirSync(fileStore);
+    var fileList : Array<string> = new Array;
+        const files : Array<string> = fs.readdirSync(fileStore);
         files.forEach(file => {
           fileList.push(fileStore + "/" + file);
         });  
@@ -63,7 +63,7 @@ import fs from "fs";
 
   // Root Endpoint
   // Displays a simple message to the user
-  app.get( "/", async ( req, res ) => {
+  app.get( "/", async (req:express.Request, res:express.Response ) => {
     res.send("try GET /filteredimage?image_url={{}}")
   } );
   

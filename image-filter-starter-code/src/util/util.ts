@@ -10,11 +10,11 @@ import axios from "axios";
 // RETURNS
 //    an absolute path to a filtered image locally saved file
 export async function filterImageFromURL(inputURL: string): Promise<string> {
-  const outpath =
+  const outpath : string =
         "/tmp/filtered." + Math.floor(Math.random() * 2000) + ".jpg";
    await new Promise(async (resolve, reject) => {
     try {
-      const photo = await axios({
+      const photo : any = await axios({
         method: 'get', 
         url: inputURL, 
         responseType: 'arraybuffer' })
@@ -25,7 +25,7 @@ export async function filterImageFromURL(inputURL: string): Promise<string> {
         .resize(256, 256) // resize
         .quality(60) // set JPEG quality
         .greyscale() // set greyscale
-        .write(__dirname + outpath, (img) => {
+        .write(__dirname + outpath, () => {
           resolve(__dirname + outpath);
         });
     } catch (error) {
